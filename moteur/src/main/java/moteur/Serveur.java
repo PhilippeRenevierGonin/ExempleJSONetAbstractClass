@@ -14,9 +14,31 @@ public class Serveur extends Application implements RéceptionDesMessages {
     private Moteur moteur;
     private EnvoiDesMessages connexion;
 
+    private Object synchroAttenteDebut = new Object();
+
     public static void main(String [] args) {
         Serveur serveur = new Serveur("127.0.0.1",10101);
         serveur.démarrer();
+        serveur.lancerPartie();
+    }
+
+    public void lancerPartie() {
+        getVue().afficheMessage("on attend que tout le monde soit là");
+
+        synchronized (synchroAttenteDebut) {
+            try {
+                synchroAttenteDebut.wait();
+            } catch (InterruptedException e) {
+                getVue().afficheMessageErreur("on a été interrompu, on n'a pas pu attendre que tout le monde soit là");
+            }
+        }
+
+        getVue().afficheMessage("on peut commencer la partie");
+        // lancement de la partie
+        // todo...
+        // fin de la partie
+        fin();
+
     }
 
     public Serveur(String ip, int port) {
@@ -36,14 +58,18 @@ public class Serveur extends Application implements RéceptionDesMessages {
         if (! resultat) msg = "Refus de ";
         getVue().afficheMessage(msg+id);
 
-        // fin de la partie
-        fin();
+        synchronized (synchroAttenteDebut) {
+            if (getMoteur().estPartieComplete()) {
+                getVue().afficheMessageErreur("on notifie...");
+                synchroAttenteDebut.notify();
+            }
+        }
 
         return resultat;
     }
 
     private void fin() {
-        getConnexion().envoyerSignalFin();
+        getConnexion().envoyerSignalFin(getMoteur().getGagnant());
     }
 
     /**

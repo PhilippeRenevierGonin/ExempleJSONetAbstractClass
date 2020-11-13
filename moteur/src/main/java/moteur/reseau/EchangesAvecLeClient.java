@@ -10,7 +10,7 @@ import donnees.Message;
 import io.netty.channel.ChannelHandlerContext;
 
 import java.util.HashMap;
-import java.util.List;
+import java.util.Map;
 
 public class EchangesAvecLeClient implements EnvoiDesMessages {
     SocketIOServer serveur;
@@ -18,6 +18,7 @@ public class EchangesAvecLeClient implements EnvoiDesMessages {
     private HashMap<Identification, SocketIOClient> map;
 
     Object synchro = new Object();
+    boolean enFonctionnement = true;
 
     public EchangesAvecLeClient(String ip, int port, RéceptionDesMessages ctrl) {
         controleur = ctrl;
@@ -51,7 +52,7 @@ public class EchangesAvecLeClient implements EnvoiDesMessages {
         getServeur().addDisconnectListener(new DisconnectListener() {
             public void onDisconnect(SocketIOClient socketIOClient) {
                 synchronized (synchro) {
-                    if (getServeur().getAllClients().size() == 0) {
+                    if (enFonctionnement && (getServeur().getAllClients().size() == 0)) {
                         controleur.transfèreMsg("tou.te.s sont déconnecté.e.s");
                         arrêter();
                     }
@@ -85,6 +86,7 @@ public class EchangesAvecLeClient implements EnvoiDesMessages {
     }
 
     public void arrêter() {
+        enFonctionnement = false;
 
         controleur.transfèreMsg("fin du serveur - début");
         for(SocketIOClient c : map.values()) c.disconnect();
@@ -115,10 +117,15 @@ public class EchangesAvecLeClient implements EnvoiDesMessages {
     }
 
     @Override
-    public void envoyerSignalFin() {
+    public void envoyerSignalFin(Identification gagnant) {
+        /*
+        changement, il faut comparer à gagnant pour envoyer vrai ou faux
         // tout le monde a gagné.
         getServeur().getBroadcastOperations().sendEvent(Message.FIN, true);
-
+        */
+        for(Map.Entry<Identification, SocketIOClient> j : map.entrySet()) {
+            j.getValue().sendEvent(Message.FIN, j.getKey().equals(gagnant));
+        }
     }
 
 
