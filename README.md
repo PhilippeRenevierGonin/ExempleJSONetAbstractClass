@@ -12,3 +12,6 @@ le client se connecte au serveur
 le client s'identifie une fois la connexion établie
 le moteur (dans le serveur) accepte le joueur
 le serveur envoie fin de partie (le client a gagné)
+
+##étape 02 : on passe à deux clients
+juste pour voir l'acceptation des deux clients. Le premier connecté gagne. 

@@ -34,6 +34,7 @@
                 </executions>
                 <configuration>
                     <mainClass>lanceur.Main</mainClass>
+                    <cleanupDaemonThreads>false</cleanupDaemonThreads>
                 </configuration>
             </plugin>
 

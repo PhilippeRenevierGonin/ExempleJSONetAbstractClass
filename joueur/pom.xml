@@ -31,6 +31,7 @@
                 </executions>
                 <configuration>
                     <mainClass>joueur.Client</mainClass>
+                    <cleanupDaemonThreads>false</cleanupDaemonThreads>
                 </configuration>
             </plugin>
         </plugins>
@@ -46,6 +47,14 @@
             <groupId>prg.exemple</groupId>
             <artifactId>donnees</artifactId>
             <version>1</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.github.javafaker/javafaker -->
+        <!-- to get random name -->
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
+            <version>1.0.2</version>
         </dependency>
     </dependencies>
 </project>
