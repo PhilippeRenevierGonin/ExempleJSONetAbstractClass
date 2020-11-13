@@ -1,12 +1,13 @@
 package joueur.vue;
 
+import app.Vue;
 import joueur.Client;
 
-public class Vue {
+public class VueClient implements Vue {
 
     private final Client client;
 
-    public Vue(Client client) {
+    public VueClient(Client client) {
         this.client = client;
         client.setVue(this);
     }

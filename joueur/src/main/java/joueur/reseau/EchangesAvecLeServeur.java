@@ -1,6 +1,7 @@
 package joueur.reseau;
 
 import donnees.Identification;
+import donnees.Message;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
@@ -22,7 +23,6 @@ public class EchangesAvecLeServeur {
      */
     public EchangesAvecLeServeur(String url, Client ctrl) {
         setControleur(ctrl);
-        controleur.setConnexion(this);
 
         try {
             connexion = IO.socket(url);
@@ -38,10 +38,15 @@ public class EchangesAvecLeServeur {
                 }
             });
 
+            connexion.on(Message.FIN, new Emitter.Listener() {
+                public void call(Object... objects) {
+                    controleur.résultat((boolean ) objects[0]);
+                }
+            });
+
             connexion.on("disconnect", new Emitter.Listener() {
                 public void call(Object... objects) {
                     controleur.transfèreMessage(" !! on est déconnecté !! ");
-
                     controleur.finPartie();
 
                 }
@@ -61,11 +66,12 @@ public class EchangesAvecLeServeur {
 
     public void stop() {
         connexion.off("connect");
+        connexion.off("disconnect");
+        connexion.off(Message.FIN);
 
         // pour ne pas être sur le thread de SocketIO
         new Thread(new Runnable() {
             public void run() {
-                connexion.off("disconnect");
                 connexion.disconnect();
                 connexion.close();
                 System.out.println("@todo >>>> c'est fini");
@@ -77,6 +83,10 @@ public class EchangesAvecLeServeur {
 
     public void envoyerId(Object pj) {
         JSONObject pieceJointe = new JSONObject(pj);
-        connexion.emit("identification", pieceJointe);
+        connexion.emit(Message.IDENTIFICATION, pieceJointe);
+    }
+
+    public void seConnecter() {
+        connexion.connect();
     }
 }

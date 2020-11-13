@@ -1,15 +1,16 @@
 package joueur;
 
+import app.Application;
 import donnees.Identification;
 import joueur.reseau.EchangesAvecLeServeur;
-import joueur.vue.Vue;
+import joueur.vue.VueClient;
 
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 
-public class Client {
+public class Client extends Application {
 
-    private Vue vue;
+
     private Identification identification;
     private EchangesAvecLeServeur connexion;
 
@@ -21,19 +22,20 @@ public class Client {
         }
 
         Client client = new Client("Michel", 99);
-        Vue vue = new Vue(client);
-        EchangesAvecLeServeur connexion = new EchangesAvecLeServeur("http://127.0.0.1:10101", client);
-
         client.rejoindreUnePartie();
     }
 
 
     public Client(String nom, int lvl) {
         setIdentification(new Identification(nom, lvl));
+        setVue(new VueClient(this));
+        setConnexion(new EchangesAvecLeServeur("http://127.0.0.1:10101", this));
     }
 
 
     public void rejoindreUnePartie() {
+        getVue().afficheMessage("en attente de déconnexion");
+        getConnexion().seConnecter();
     }
 
 
@@ -58,13 +60,7 @@ public class Client {
 
 
     /********* méthodes pour les propriétés **********/
-    public void setVue(Vue vue) {
-        this.vue = vue;
-    }
 
-    public Vue getVue() {
-        return vue;
-    }
 
     public Identification getIdentification() {
         return identification;
@@ -83,4 +79,13 @@ public class Client {
     }
 
 
+    public void résultat(boolean gagné) {
+        getVue().afficheMessage(" C'est fini ");
+
+        if (gagné) getVue().afficheMessage("j'ai gagné");
+        else getVue().afficheMessage("j'ai perdu");
+
+        finPartie();
+
+    }
 }
