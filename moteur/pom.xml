@@ -8,9 +8,14 @@
     <artifactId>moteur</artifactId>
     <version>1</version>
 
+    <parent>
+        <groupId>prg.exemple</groupId>
+        <artifactId>json.vs.abstract</artifactId>
+        <version>1</version>
+    </parent>
+
     <build>
-        <sourceDirectory>src/main/java
-        </sourceDirectory>  <!-- éventuellement à changer : localisation des fichiers sources -->
+        <sourceDirectory>src/main/java</sourceDirectory>  <!-- éventuellement à changer : localisation des fichiers sources -->
 
 
         <plugins>

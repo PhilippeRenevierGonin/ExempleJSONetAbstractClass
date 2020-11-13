@@ -7,3 +7,8 @@ Note : l'aspect test est sur un autre dépôt : https://github.com/PhilippeRenev
 ajout du .gitignore, configuration du projet maven multimodule. 
 ajout de dépendances, laisons entre les modules.
 
+##étape 01 : connexion, handshake évolué
+le client se connecte au serveur
+le client s'identifie une fois la connexion établie
+le moteur (dans le serveur) accepte le joueur
+le serveur envoie fin de partie (le client a gagné)

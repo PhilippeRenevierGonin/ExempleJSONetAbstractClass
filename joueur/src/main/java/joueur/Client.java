@@ -59,6 +59,16 @@ public class Client extends Application {
     }
 
 
+    public void résultat(boolean gagné) {
+        getVue().afficheMessage(" C'est fini ");
+
+        if (gagné) getVue().afficheMessage("j'ai gagné");
+        else getVue().afficheMessage("j'ai perdu");
+
+        finPartie();
+
+    }
+
     /********* méthodes pour les propriétés **********/
 
 
@@ -79,13 +89,5 @@ public class Client extends Application {
     }
 
 
-    public void résultat(boolean gagné) {
-        getVue().afficheMessage(" C'est fini ");
 
-        if (gagné) getVue().afficheMessage("j'ai gagné");
-        else getVue().afficheMessage("j'ai perdu");
-
-        finPartie();
-
-    }
 }
