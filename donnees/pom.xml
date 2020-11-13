@@ -8,5 +8,11 @@
     <artifactId>donnees</artifactId>
     <version>1</version>
 
+    <parent>
+        <groupId>prg.exemple</groupId>
+        <artifactId>json.vs.abstract</artifactId>
+        <version>1</version>
+    </parent>
+
 
 </project>
