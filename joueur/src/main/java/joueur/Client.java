@@ -1,6 +1,7 @@
 package joueur;
 
 import app.Application;
+import com.github.javafaker.Faker;
 import donnees.Identification;
 import joueur.reseau.EchangesAvecLeServeur;
 import joueur.vue.VueClient;
@@ -21,7 +22,10 @@ public class Client extends Application {
             e.printStackTrace();
         }
 
-        Client client = new Client("Michel", 99);
+        Faker nameFaker = new Faker();
+
+
+        Client client = new Client(nameFaker.harryPotter().character(), nameFaker.random().nextInt(99));
         client.rejoindreUnePartie();
     }
 

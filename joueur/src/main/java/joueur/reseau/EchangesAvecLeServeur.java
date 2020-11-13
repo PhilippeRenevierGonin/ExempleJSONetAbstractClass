@@ -1,6 +1,5 @@
 package joueur.reseau;
 
-import donnees.Identification;
 import donnees.Message;
 import io.socket.client.IO;
 import io.socket.client.Socket;
@@ -15,6 +14,7 @@ public class EchangesAvecLeServeur {
 
     private Client controleur;
     Socket connexion;
+
 
     /**
      *
@@ -76,7 +76,7 @@ public class EchangesAvecLeServeur {
                 connexion.close();
                 System.out.println("@todo >>>> c'est fini");
                 // hack pour arrêter plus vite (sinon attente de plusieurs secondes)
-                System.exit(0);
+                // System.exit(0);
             }
         }).start() ;
     }

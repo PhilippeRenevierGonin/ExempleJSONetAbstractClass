@@ -5,7 +5,9 @@ public class Identification {
     private String nom ;
     private int niveau;
 
-    public Identification() {}
+    public Identification() {
+        this("", 0);
+    }
 
     public Identification(String nom, int level) {
         this.nom = nom;
@@ -30,6 +32,14 @@ public class Identification {
     }
 
 
+
+    public boolean equals(Object o) {
+        if (o instanceof Identification) {
+            Identification id = (Identification) o;
+            return  (getNom().equals(id.getNom()) && (getNiveau() == id.getNiveau())) ;
+        }
+        else return false;
+    }
 
     public String toString() {
         return getNom()+" ["+getNiveau()+"]";
