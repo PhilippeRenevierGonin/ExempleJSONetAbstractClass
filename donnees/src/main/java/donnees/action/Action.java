@@ -32,7 +32,4 @@ public abstract class Action {
     public boolean verifier(MoteurDeJeu moteur) {
         return true;
     }
-
-
-    v
 }

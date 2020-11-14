@@ -74,7 +74,7 @@ public class Moteur implements MoteurDeJeu {
      */
     @Override
     public Inventaire getInventaireDuJoueur(Identification joueur) {
-        return null;
+        return inventaires.get(joueur);
     }
 
     /**
