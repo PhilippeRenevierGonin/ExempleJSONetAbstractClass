@@ -10,6 +10,8 @@ import moteur.reseau.EnvoiDesMessages;
 import moteur.reseau.RéceptionDesMessages;
 import moteur.vue.VueServeur;
 
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 
 public class Serveur extends Application implements RéceptionDesMessages {
@@ -29,6 +31,12 @@ public class Serveur extends Application implements RéceptionDesMessages {
 
 
     public static void main(String[] args) {
+        try {
+            System.setOut(new PrintStream(System.out, true, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        
         Serveur serveur = new Serveur("127.0.0.1", 10101);
         serveur.démarrer();
         serveur.lancerPartie();

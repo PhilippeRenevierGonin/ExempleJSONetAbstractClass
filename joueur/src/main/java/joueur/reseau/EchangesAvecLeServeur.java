@@ -102,7 +102,7 @@ public class EchangesAvecLeServeur {
             public void run() {
                 connexion.disconnect();
                 connexion.close();
-                System.out.println("@todo >>>> c'est fini");
+                // System.out.println("@todo >>>> c'est fini");
                 // hack pour arrêter plus vite (sinon attente de plusieurs secondes)
                 // System.exit(0);
             }
