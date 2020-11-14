@@ -32,6 +32,11 @@ Exécution :
  - _Note : le module lanceur n'est pas nécessaire ni obligatoire_
  
  
- ##étape 03 : on joue un tour : les joueurs retourne une action
- Une fois les joeurs connecter, le jeu va faire une tour : le serveur demande à chaque joueur (séquentiellement) son action en lui envoyant son Inventaire (nouvelle classe), puis le joueur répond quelle Action (nouvelle classe) il veut faire.
+##étape 03 :  BUG : Étape qui plante : on essaie de jouer un tour : les joueurs retourne une action ()
+Cela plante car il y a le problème de déserialisaiton d'une Action. C'est le but de cet exemple. Dans l'étape suivante, on règle le problème 
+Une fois les joeurs connecter, le jeu va faire une tour : le serveur demande à chaque joueur (séquentiellement) son action en lui envoyant son Inventaire (nouvelle classe), puis le joueur répond quelle Action (nouvelle classe) il veut faire.
+Côté Joueur, il y a une IA (qui fait toujours la même action pour l'instant) et qui la renvoie. 
+
+
+ 
    
