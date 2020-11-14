@@ -10,11 +10,12 @@ Avant de présenter les étapes, il y a des points particuluers à observer dans
     - Si on redéfinit equals, **IL FAUT REDÉFINIR hashCode()** car deux objets égaux doivent avoir le même hashcode.
  - il y a des toString pour permettre un affichage plus facilement des objet
 
-##étape 00 : initialisation du projet 
+
+## étape 00 : initialisation du projet 
 ajout du .gitignore, configuration du projet maven multimodule. 
 ajout de dépendances, laisons entre les modules.
 
-##étape 01 : connexion, handshake évolué
+## étape 01 : connexion, handshake évolué
 le client se connecte au serveur
 le client s'identifie une fois la connexion établie
 le moteur (dans le serveur) accepte le joueur
@@ -25,7 +26,7 @@ Exécution :
  -  ou lancer le lanceur  ( cd lanceur puis mvn exec:java )
  - _Note : le module lanceur n'est pas nécessaire ni obligatoire_
 
-##étape 02 : on passe à deux clients
+## étape 02 : on passe à deux clients
 juste pour voir l'acceptation des deux clients. Le premier connecté gagne. 
 Quelques points particuliers : 
  - <cleanupDaemonThreads>false</cleanupDaemonThreads> : dans le pom de joueur ou de lanceur, car des threads de OkHttp (utilisé par socketIO) ont dû mal à se fermer
@@ -39,12 +40,12 @@ Exécution :
  - _Note : le module lanceur n'est pas nécessaire ni obligatoire_
  
  
-##étape 03 :  BUG : Étape qui plante : on essaie de jouer un tour : les joueurs retourne une action ()
+## étape 03 :  BUG : Étape qui plante : on essaie de jouer un tour : les joueurs retourne une action ()
 Cela plante car il y a le problème de déserialisaiton d'une Action. C'est le but de cet exemple. Dans l'étape suivante, on règle le problème 
 Une fois les joeurs connecter, le jeu va faire une tour : le serveur demande à chaque joueur (séquentiellement) son action en lui envoyant son Inventaire (nouvelle classe), puis le joueur répond quelle Action (nouvelle classe) il veut faire.
 Côté Joueur, il y a une IA (qui fait toujours la même action pour l'instant) et qui la renvoie. 
 
-##étape 04 : les clients envoient une Action et le serveur la reçoit 
+## étape 04 : les clients envoient une Action et le serveur la reçoit 
 Plusieurs points importants liés à Jackson, librairie utilisé par SocketIO côté serveur
 
 ### Annotation Jacksion 
@@ -72,7 +73,7 @@ public abstract class Action { /* ... */ }
 ```
  Dans lancer, EssaiJackson permet d'essayer les différentes conversions (il n'y a pas de dépendance à ajouter, elles le sont par transitivité via client et serveur).
  
- ### Il faut aider SocketIO (côté client)
+### Il faut aider SocketIO (côté client)
  Côté client, pour l'envoi, il faut utiliser un ObjectMapper (objet de Jackson) pour la prise en compte des annotations : 
  ```java
     try {
@@ -94,7 +95,7 @@ pour cela il faut ajouter une dépendance dans le pom de joueur
     </dependencies>
 ```
 
- ### Il faut aider SocketIO (côté serveur)
+### Il faut aider SocketIO (côté serveur)
 L'utilisation en interne de Jackson dans SocketIO ne permet de pas de déserialiser correctement. Alors, on contourne le problème : on déclare recevoir une String, cela sera le json au format texte. Puis on utilise jackson nous même.
  ```java
         // réception du choix d'une action
