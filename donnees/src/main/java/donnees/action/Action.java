@@ -1,7 +1,15 @@
 package donnees.action;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import donnees.Identification;
 
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = ActionRisquée.class, name = "ActionRisquée"),
+        @JsonSubTypes.Type(value = ActionSure.class, name = "ActionSure")
+})
 public abstract class Action {
     /**
      * le joueur qui fait le choix de cette action
