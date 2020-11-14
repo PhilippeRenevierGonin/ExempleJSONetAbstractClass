@@ -85,4 +85,14 @@ public class Moteur implements MoteurDeJeu {
     public Random getGenerateurNombreAleatoire() {
         return random;
     }
+
+    /**
+     * pour itérer sur les joueurs
+     * @return un tableau de joueur
+     */
+    public Identification[] getJoueurs() {
+       Set joueurs = inventaires.keySet();
+       Identification[] résultat = new Identification[joueurs.size()];
+       return  inventaires.keySet().toArray(résultat);
+    }
 }

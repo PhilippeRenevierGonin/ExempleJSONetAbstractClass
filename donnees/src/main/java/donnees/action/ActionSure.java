@@ -23,4 +23,8 @@ public class ActionSure extends Action {
             inventaire.ajouterPoints(2);
         }
     }
+
+    public String toString() {
+        return "ActionSure jouée par "+getJoueur();
+    }
 }

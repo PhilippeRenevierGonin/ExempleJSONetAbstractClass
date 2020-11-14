@@ -6,7 +6,9 @@ import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.*;
 import donnees.Identification;
+import donnees.Inventaire;
 import donnees.Message;
+import donnees.action.Action;
 import io.netty.channel.ChannelHandlerContext;
 
 import java.util.HashMap;
@@ -78,6 +80,17 @@ public class EchangesAvecLeClient implements EnvoiDesMessages {
         });
 
 
+        // réception du choix d'une action
+        serveur.addEventListener(Message.JOUER_CETTE_ACTION, Action.class, new DataListener<Action>() {
+            @Override
+            public void onData(SocketIOClient socketIOClient, Action action, AckRequest ackRequest) throws Exception {
+                synchronized (synchro) {
+                    controleur.transfèreAction(action);
+                }
+            }
+        });
+
+
     }
 
 
@@ -125,6 +138,19 @@ public class EchangesAvecLeClient implements EnvoiDesMessages {
         */
         for(Map.Entry<Identification, SocketIOClient> j : map.entrySet()) {
             j.getValue().sendEvent(Message.FIN, j.getKey().equals(gagnant));
+        }
+    }
+
+    /**
+     * pour effectuer la demande de joueur
+     * @param j le joueur à contacter
+     * @param inventaireDuJoueur son inventaire
+     */
+    @Override
+    public void demandeAuJoueurDeJouer(Identification j, Inventaire inventaireDuJoueur) {
+        if (map.containsKey(j)) {
+            controleur.transfèreMsg("envoie de la demande de jouer à "+j);
+            map.get(j).sendEvent(Message.DEMANDE_DE_JOUER, inventaireDuJoueur);
         }
     }
 

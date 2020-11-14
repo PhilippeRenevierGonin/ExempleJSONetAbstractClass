@@ -31,4 +31,8 @@ public class ActionRisquée extends Action{
             inventaire.ajouterPoints(r.nextInt(4));
         }
     }
+
+    public String toString() {
+        return "ActionRisquée jouée par "+getJoueur();
+    }
 }
