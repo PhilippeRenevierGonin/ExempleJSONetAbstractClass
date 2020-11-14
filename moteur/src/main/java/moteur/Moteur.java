@@ -5,8 +5,10 @@ import donnees.Inventaire;
 import donnees.action.MoteurDeJeu;
 import moteur.reseau.RéceptionDesMessages;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.Set;
 
 public class Moteur implements MoteurDeJeu {
@@ -14,6 +16,7 @@ public class Moteur implements MoteurDeJeu {
     private HashMap<Identification, Inventaire> inventaires = new HashMap<>();
     // ArrayList<Identification> joueurs = new ArrayList<>(); // devenu obsolète, c'est la liste des clefs de la map "inventaures"
     static final int NB_MAX_JOUEUR = 2;
+    SecureRandom random = new SecureRandom();
 
     public Moteur(Serveur serveur) {
     }
@@ -72,5 +75,14 @@ public class Moteur implements MoteurDeJeu {
     @Override
     public Inventaire getInventaireDuJoueur(Identification joueur) {
         return null;
+    }
+
+    /**
+     * pour des raisons de sécurité et d'efficacité, il en faut qu'un seul générateur de nombre. Il est centralisé dans moteur
+     * @return un générateur de nombre aléatoire
+     */
+    @Override
+    public Random getGenerateurNombreAleatoire() {
+        return random;
     }
 }
