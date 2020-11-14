@@ -51,7 +51,7 @@ public class Serveur extends Application implements RéceptionDesMessages {
         faireUnTour(joueurs);
 
         // fin de la partie
-        fin();
+        fin(joueurs);
 
     }
 
@@ -107,7 +107,13 @@ public class Serveur extends Application implements RéceptionDesMessages {
         return resultat;
     }
 
-    private void fin() {
+    private void fin(Identification[] joueurs) {
+        getVue().afficheMessage("état final : ");
+        for(Identification j : joueurs) {
+            getVue().afficheMessage(j+" a "+getMoteur().getInventaireDuJoueur(j));
+        }
+
+        // todo à changer pour dire qui a vraiment changer
         getConnexion().envoyerSignalFin(getMoteur().getGagnant());
     }
 

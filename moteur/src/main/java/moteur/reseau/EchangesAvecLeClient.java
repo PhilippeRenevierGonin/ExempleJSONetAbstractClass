@@ -5,6 +5,7 @@ import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import donnees.Identification;
 import donnees.Inventaire;
 import donnees.Message;
@@ -21,6 +22,10 @@ public class EchangesAvecLeClient implements EnvoiDesMessages {
 
     Object synchro = new Object();
     boolean enFonctionnement = true;
+
+    // il y a un problème en interne à SocketIo, on l'aide un peu, on fait la conversion nous même pour les Action
+    // pour cela, il nous faut un ObjectMapper (plus facile)
+    ObjectMapper jackson = new ObjectMapper();
 
     public EchangesAvecLeClient(String ip, int port, RéceptionDesMessages ctrl) {
         controleur = ctrl;
@@ -81,11 +86,14 @@ public class EchangesAvecLeClient implements EnvoiDesMessages {
 
 
         // réception du choix d'une action
-        serveur.addEventListener(Message.JOUER_CETTE_ACTION, Action.class, new DataListener<Action>() {
+        // IMPORTANT : en interne, la deserialisation pause problème, du coup on passe par une chaine qu'on désérialise à la main
+        serveur.addEventListener(Message.JOUER_CETTE_ACTION, String.class, new DataListener<String>() {
             @Override
-            public void onData(SocketIOClient socketIOClient, Action action, AckRequest ackRequest) throws Exception {
+            public void onData(SocketIOClient socketIOClient, String action, AckRequest ackRequest) throws Exception {
                 synchronized (synchro) {
-                    controleur.transfèreAction(action);
+                    // il y a un problème en interne à SocketIo, on l'aide un peu, on fait la conversion nous même
+                    Action a = jackson.readValue(action, Action.class);
+                    controleur.transfèreAction(a);
                 }
             }
         });

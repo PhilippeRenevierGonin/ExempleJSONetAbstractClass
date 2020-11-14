@@ -1,5 +1,8 @@
 package joueur.reseau;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import donnees.Inventaire;
 import donnees.Message;
 import donnees.action.Action;
@@ -17,7 +20,7 @@ public class EchangesAvecLeServeur {
 
     private Client controleur;
     Socket connexion;
-
+    ObjectMapper jackson;
 
     /**
      *
@@ -26,6 +29,9 @@ public class EchangesAvecLeServeur {
      */
     public EchangesAvecLeServeur(String url, Client ctrl) {
         setControleur(ctrl);
+
+        jackson = new ObjectMapper();
+
 
         try {
             connexion = IO.socket(url);
@@ -113,7 +119,14 @@ public class EchangesAvecLeServeur {
     }
 
     public void envoyerActionChoisie(Object pj) {
-        JSONObject pieceJointe = new JSONObject(pj);
-        connexion.emit(Message.JOUER_CETTE_ACTION, pieceJointe);
+        // JSONObject pieceJointe = new JSONObject(pj);
+        // c'est à Jackton de séraliser l'action
+        try {
+            String json = jackson.writeValueAsString(pj);
+            System.err.println(json);
+            connexion.emit(Message.JOUER_CETTE_ACTION, json);
+        } catch (JsonProcessingException e) {
+            controleur.transfèreMessage("erreur avec jackson...");
+        }
     }
 }
