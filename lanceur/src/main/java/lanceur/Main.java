@@ -1,6 +1,8 @@
 package lanceur;
 
 import joueur.Client;
+import joueur.ia.Bot;
+import joueur.ia.BotQuiPrendDesRisques;
 import moteur.Serveur;
 
 import java.io.PrintStream;
@@ -15,8 +17,8 @@ public class Main {
             e.printStackTrace();
         }
 
-        Client client1 = new Client("DémoPlayer", 1);
-        Client client2 = new Client("OtherDémoPlayer", 1);
+        Client client1 = new Client("DémoPlayer", 1, new Bot());
+        Client client2 = new Client("OtherDémoPlayer", 1, new BotQuiPrendDesRisques());
         Serveur serveur = new Serveur("127.0.0.1",10101);
 
         // d'abord les clients car lancerPartie est bloquant

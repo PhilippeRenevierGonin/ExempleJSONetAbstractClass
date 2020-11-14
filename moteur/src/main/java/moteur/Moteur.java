@@ -6,10 +6,7 @@ import donnees.action.MoteurDeJeu;
 import moteur.reseau.RéceptionDesMessages;
 
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public class Moteur implements MoteurDeJeu {
 
@@ -56,12 +53,24 @@ public class Moteur implements MoteurDeJeu {
 
     /**
      * pour déterminer le gagnant
-     * @return le gagnant (le 1er joueur de façon temporaire) si la partie est finie, null sinon
+     * @return le gagnant [les égalités ne sont pas traiter, on prend le premier]
      */
     public Identification getGagnant() {
         if (estPartieFinie()) {
-            Set joueurs = inventaires.keySet();
-            return (Identification) joueurs.iterator().next();
+            Iterator<Identification> joueurs = inventaires.keySet().iterator();
+            Identification j ;
+            Identification gagnant = null;
+            int nbmax = -1000;
+            while (joueurs.hasNext()) {
+                j = joueurs.next();
+                int nbPoints = inventaires.get(j).getPoints();
+                if (nbPoints > nbmax) {
+                    nbmax = nbPoints;
+                    gagnant = j;
+                }
+            }
+
+            return gagnant;
         }
         else return null;
     }

@@ -1,7 +1,14 @@
 # ExempleJSONetAbstractClass
 exemple d'utilisation d'annotations jackson pour la conversion (dans les deux sens) de type abstrait en JSON
-
 Note : l'aspect test est sur un autre dépôt : https://github.com/PhilippeRenevierGonin/ExempleSocketIOClientServeurJava/tree/test
+
+Avant de présenter les étapes, il y a des points particuluers à observer dans l'exemple : 
+ - la synchro côté serveur entre le thread principal (d'exécution) et ceux de socketIO car il faut attendre les réponses des joueurs
+ - cette synchro n'est pas nécessaire côté client : le thread principal lance la connexion, puis tout se fait sur les threads de socketIO
+ - il y a un exemple de equals et hashCode dans Identification 
+    - **REDÉFINIR equals** est nécessaire pour comparer des instances différentes mais avec les mêmes valeurs (cas de identification envoyé via le réseau)
+    - Si on redéfinit equals, **IL FAUT REDÉFINIR hashCode()** car deux objets égaux doivent avoir le même hashcode.
+ - il y a des toString pour permettre un affichage plus facilement des objet
 
 ##étape 00 : initialisation du projet 
 ajout du .gitignore, configuration du projet maven multimodule. 
@@ -126,3 +133,9 @@ Cela s'exécute sur les threads de socketIO :
  - on renvoie l'action via un emit Message.JOUER_CETTE_ACTION
 
 Cela se lance comme avant (1 moteur/serveur + 2 joueurs/clients OU lanceur). 
+
+
+##étape 05 : les clients envoient une Action et le serveur la reçoit 
+On fait un 2e type de BOT, qui fait l'ActionRisquée. 
+Côté serveur, on compare les scores (l'égalité n'est pas gérée).
+Le serveur reçoit bien les deux types d'action (mais ne sait pas la classe concrète).

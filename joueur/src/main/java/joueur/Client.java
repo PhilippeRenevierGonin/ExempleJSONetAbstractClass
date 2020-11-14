@@ -6,6 +6,7 @@ import donnees.Identification;
 import donnees.Inventaire;
 import donnees.action.Action;
 import joueur.ia.Bot;
+import joueur.ia.BotQuiPrendDesRisques;
 import joueur.reseau.EchangesAvecLeServeur;
 import joueur.vue.VueClient;
 
@@ -28,17 +29,27 @@ public class Client extends Application {
 
         Faker nameFaker = new Faker();
 
+        Bot b;
 
-        Client client = new Client(nameFaker.harryPotter().character(), nameFaker.random().nextInt(99));
+        if (nameFaker.random().nextInt(10) % 2 == 0) {
+            b = new Bot();
+        }
+        else b = new BotQuiPrendDesRisques();
+
+        Client client = new Client(nameFaker.harryPotter().character(), nameFaker.random().nextInt(99), b);
         client.rejoindreUnePartie();
     }
 
 
-    public Client(String nom, int lvl) {
+    public Client(String nom, int lvl, Bot bot) {
         setIdentification(new Identification(nom, lvl));
         setVue(new VueClient(this));
-        setIa(new Bot());
+        setIa(bot);
         setConnexion(new EchangesAvecLeServeur("http://127.0.0.1:10101", this));
+    }
+
+    public Client(String nom, int lvl) {
+        this(nom, lvl, new Bot());
     }
 
 

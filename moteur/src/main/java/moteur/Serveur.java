@@ -36,7 +36,7 @@ public class Serveur extends Application implements RéceptionDesMessages {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        
+
         Serveur serveur = new Serveur("127.0.0.1", 10101);
         serveur.démarrer();
         serveur.lancerPartie();
