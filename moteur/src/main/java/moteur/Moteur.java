@@ -1,13 +1,18 @@
 package moteur;
 
 import donnees.Identification;
+import donnees.Inventaire;
+import donnees.action.MoteurDeJeu;
 import moteur.reseau.RéceptionDesMessages;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 
-public class Moteur  {
+public class Moteur implements MoteurDeJeu {
 
-    ArrayList<Identification> joueurs = new ArrayList<>();
+    private HashMap<Identification, Inventaire> inventaires = new HashMap<>();
+    // ArrayList<Identification> joueurs = new ArrayList<>(); // devenu obsolète, c'est la liste des clefs de la map "inventaures"
     static final int NB_MAX_JOUEUR = 2;
 
     public Moteur(Serveur serveur) {
@@ -19,8 +24,9 @@ public class Moteur  {
      * @return true si l'ajout est effectif, faux si le joueur est rejeté
      */
     public boolean ajouterJoueur(Identification id) {
+        Set joueurs = inventaires.keySet();
         if ((joueurs.size() < NB_MAX_JOUEUR) && (! joueurs.contains(id))) {
-            joueurs.add(id);
+            inventaires.put(id, new Inventaire());
             return true;
         }
         return false;
@@ -31,6 +37,7 @@ public class Moteur  {
      * @return vrai s'il y a NB_MAX_JOUEUR d'enregistrer
      */
     public boolean estPartieComplete() {
+        Set joueurs = inventaires.keySet();
         return (joueurs.size() >= NB_MAX_JOUEUR);
     }
 
@@ -40,6 +47,7 @@ public class Moteur  {
      * @return vrai si la partie est finie
      */
     public boolean estPartieFinie() {
+        Set joueurs = inventaires.keySet();
         return (joueurs.size() >= NB_MAX_JOUEUR);
     }
 
@@ -48,7 +56,21 @@ public class Moteur  {
      * @return le gagnant (le 1er joueur de façon temporaire) si la partie est finie, null sinon
      */
     public Identification getGagnant() {
-        if (estPartieFinie()) return joueurs.get(0);
+        if (estPartieFinie()) {
+            Set joueurs = inventaires.keySet();
+            return (Identification) joueurs.iterator().next();
+        }
         else return null;
+    }
+
+
+    /**
+     * Pour faire le lien entre une identification et l'iventaire d'un joueur
+     * @param joueur le joueur (via son identification) dont on veut l'inventaire
+     * @return l'inventaire du joueur concerné ou null si le joueur n'est pas identifié
+     */
+    @Override
+    public Inventaire getInventaireDuJoueur(Identification joueur) {
+        return null;
     }
 }

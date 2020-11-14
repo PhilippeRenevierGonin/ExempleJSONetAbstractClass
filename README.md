@@ -30,3 +30,8 @@ Exécution :
  - lancer le serveur et 2 joueurs dans trois terminaux différents (exemple cd serveur puis mvn exec:java )
  -  ou lancer le lanceur  ( cd lanceur puis mvn exec:java )
  - _Note : le module lanceur n'est pas nécessaire ni obligatoire_
+ 
+ 
+ ##étape 03 : on joue un tour : les joueurs retourne une action
+ Une fois les joeurs connecter, le jeu va faire une tour : le serveur demande à chaque joueur (séquentiellement) son action en lui envoyant son Inventaire (nouvelle classe), puis le joueur répond quelle Action (nouvelle classe) il veut faire.
+   
