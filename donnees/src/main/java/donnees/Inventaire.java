@@ -15,4 +15,12 @@ public class Inventaire {
     public int getPoints() {
         return points;
     }
+
+    /**
+     * méthode pratique pour ajouter des points
+     * @param nbPointÀAjouter le nombre de points à ajouter
+     */
+    public void ajouterPoints(int nbPointÀAjouter) {
+        setPoints(getPoints()+nbPointÀAjouter);
+    }
 }
