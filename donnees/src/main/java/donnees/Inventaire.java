@@ -23,4 +23,9 @@ public class Inventaire {
     public void ajouterPoints(int nbPointÀAjouter) {
         setPoints(getPoints()+nbPointÀAjouter);
     }
+
+
+    public String toString() {
+        return "[nbPoints : "+getPoints()+"]";
+    }
 }

@@ -3,6 +3,9 @@ package joueur;
 import app.Application;
 import com.github.javafaker.Faker;
 import donnees.Identification;
+import donnees.Inventaire;
+import donnees.action.Action;
+import joueur.ia.Bot;
 import joueur.reseau.EchangesAvecLeServeur;
 import joueur.vue.VueClient;
 
@@ -14,6 +17,7 @@ public class Client extends Application {
 
     private Identification identification;
     private EchangesAvecLeServeur connexion;
+    private Bot ia;
 
     public static void main(String [] args) {
         try {
@@ -33,6 +37,7 @@ public class Client extends Application {
     public Client(String nom, int lvl) {
         setIdentification(new Identification(nom, lvl));
         setVue(new VueClient(this));
+        setIa(new Bot());
         setConnexion(new EchangesAvecLeServeur("http://127.0.0.1:10101", this));
     }
 
@@ -73,6 +78,16 @@ public class Client extends Application {
 
     }
 
+
+    public void jouer(Inventaire inv) {
+        getVue().afficheMessage("c'est à moi de jouer "+inv);
+        Action actionChoisie = getIa().jouer(inv, getIdentification());
+        getVue().afficheMessage("je joue "+actionChoisie);
+        getConnexion().envoyerActionChoisie(actionChoisie);
+    }
+
+
+
     /********* méthodes pour les propriétés **********/
 
 
@@ -94,4 +109,11 @@ public class Client extends Application {
 
 
 
+    public void setIa(Bot ia) {
+        this.ia = ia;
+    }
+
+    public Bot getIa() {
+        return ia;
+    }
 }
