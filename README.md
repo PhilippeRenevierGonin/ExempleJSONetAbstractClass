@@ -2,7 +2,7 @@
 exemple d'utilisation d'annotations jackson pour la conversion (dans les deux sens) de type abstrait en JSON
 Note : l'aspect test est sur un autre dépôt : https://github.com/PhilippeRenevierGonin/ExempleSocketIOClientServeurJava/tree/test
 
-Avant de présenter les étapes, il y a des points particuluers à observer dans l'exemple : 
+Avant de présenter les étapes, il y a des points particuliers à observer dans l'exemple : 
  - la synchro côté serveur entre le thread principal (d'exécution) et ceux de socketIO car il faut attendre les réponses des joueurs
  - cette synchro n'est pas nécessaire côté client : le thread principal lance la connexion, puis tout se fait sur les threads de socketIO
  - il y a un exemple de equals et hashCode dans Identification 
@@ -136,7 +136,7 @@ Cela s'exécute sur les threads de socketIO :
 Cela se lance comme avant (1 moteur/serveur + 2 joueurs/clients OU lanceur). 
 
 
-##étape 05 : les clients envoient une Action et le serveur la reçoit 
+## étape 05 : les clients envoient une Action et le serveur la reçoit 
 On fait un 2e type de BOT, qui fait l'ActionRisquée. 
 Côté serveur, on compare les scores (l'égalité n'est pas gérée).
 Le serveur reçoit bien les deux types d'action (mais ne sait pas la classe concrète).
